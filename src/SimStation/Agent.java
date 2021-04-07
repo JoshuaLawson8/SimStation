@@ -15,9 +15,33 @@ public class Agent implements Serializable, Runnable {
 
     @Override
     public void run() {
+        while(currentState.equals(AgentState.RUNNING)){
+            update();
+        }
+    }
+
+    public void start(){
 
     }
 
+    public void suspend(){
+
+    }
+
+    public void resume(){
+
+    }
+    public void stop(){
+
+    }
+
+    public void update(){
+
+    }
+
+    public void move(int move){
+
+    }
     public enum AgentState {
         READY,
         RUNNING,
