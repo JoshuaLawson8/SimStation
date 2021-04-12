@@ -2,12 +2,12 @@ package SimStation;
 
 import java.io.Serializable;
 
-public class Agent implements Serializable, Runnable {
+public abstract class Agent implements Serializable, Runnable {
 
     private String name;
-    private String heading;
-    private int xc;
-    private int yc;
+    protected String heading;
+    protected int xc;
+    protected int yc;
     private Thread agentThread;
 
     private AgentState currentState;
@@ -18,7 +18,7 @@ public class Agent implements Serializable, Runnable {
     }
 
     @Override
-    public void run() {
+    public synchronized void run() {
         agentThread = Thread.currentThread();
         while(!(currentState == AgentState.STOPPED)){
             currentState = AgentState.RUNNING;
@@ -34,6 +34,7 @@ public class Agent implements Serializable, Runnable {
         }
     }
 
+    public synchronized void start(){currentState = AgentState.READY;}
     public synchronized void suspend(){ if(currentState == AgentState.RUNNING){ currentState = AgentState.SUSPENDED; }}
     public synchronized void resume(){ if(!(currentState == AgentState.STOPPED)) notify(); }
     public synchronized void stop(){ currentState = AgentState.STOPPED; }
@@ -46,13 +47,9 @@ public class Agent implements Serializable, Runnable {
         }
     }
 
-    public void update(){
+    public abstract void update();
 
-    }
-
-    public void move(int move){
-
-    }
+    public abstract void move(int move);
 
     public enum AgentState {
         READY,

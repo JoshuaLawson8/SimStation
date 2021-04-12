@@ -42,8 +42,12 @@ public class Simulation extends Model {
 
     }
 
-    public Agent getNeighbor(Agent a){return null;}
+    public ArrayList<Agent> getAgents() {
+        return Agents;
+    }
 
+    //Can these be abstract?
+    public Agent getNeighbor(Agent a){return null;}
     public void populate(){}
 
 
