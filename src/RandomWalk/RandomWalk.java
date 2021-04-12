@@ -9,7 +9,7 @@ public class RandomWalk extends Simulation {
     @Override
     public void populate() {
         for(int i = 0; i < POP;){
-            getAgents().add(new Drunk("Drunk" + i));
+            Agents.add(new Drunk("Drunk" + i));
         }
 
     }

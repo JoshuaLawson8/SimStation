@@ -8,7 +8,7 @@ import java.util.ArrayList;
 public class Simulation extends Model {
 
     private int clock = 0;
-    private ArrayList<Agent> Agents;
+    protected ArrayList<Agent> Agents;
 
     public Simulation(){
         Agents = new ArrayList<Agent>();
