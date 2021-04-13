@@ -1,23 +1,19 @@
 package RandomWalk;
 
-import SimStation.Agent;
+import SimStation.*;
+import tools.*;
 
-public class Drunk extends Agent {
+class Drunk extends Agent {
 
-    public Drunk(String name){
-        super(name);
+    public Drunk() {
+        super();
+        heading = Heading.random();
     }
 
-    @Override
     public void update() {
-
-        //heading = Math.random();
-        xc = (int)(Math.random() * 10 + 1);
-        yc = (int)(Math.random() * 10 + 1);
+        heading = Heading.random();
+        int steps = Utilities.rng.nextInt(10) + 1;
+        move(steps);
     }
 
-    @Override
-    public void move(int move) {
-
-    }
 }
