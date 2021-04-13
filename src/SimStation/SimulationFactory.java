@@ -1,12 +1,13 @@
 package SimStation;
 
+import RandomWalk.RandomWalkSimulation;
 import mvc.*;
 
 public class SimulationFactory implements AppFactory {
 
-    public Model makeModel() { return new Simulation(); }
+    public Model makeModel() { return new RandomWalkSimulation(); }
 
-    public View makeView(Model m) { return new SimulationView((Simulation)m); }
+    public View makeView(Model m) { return new SimulationView((RandomWalkSimulation)m); }
 
     public String[] getEditCommands() { return new String[]{"Start","Suspend","Resume","Stop","Stats"}; }
 

@@ -12,11 +12,11 @@ public class Simulation extends Model {
 
     public Simulation(){
         Agents = new ArrayList<Agent>();
+        populate();
     }
 
     public void changeState(String heading){
         if(heading.equals("Start")){
-            populate();
             for(Agent a : Agents){
                 a.start();
             }
@@ -42,13 +42,18 @@ public class Simulation extends Model {
 
     }
 
+    public void addAgent(Agent a){ Agents.add(a); }
+
     public ArrayList<Agent> getAgents() {
         return Agents;
     }
 
     //Can these be abstract?
     public Agent getNeighbor(Agent a){return null;}
-    public void populate(){}
+
+    public void populate(){
+
+    }
 
 
 
