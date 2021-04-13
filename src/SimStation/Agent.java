@@ -1,19 +1,20 @@
 package SimStation;
 
+import SimStation.Heading.headingState;
+
 import java.io.Serializable;
 
-public abstract class Agent implements Serializable, Runnable {
+public class Agent implements Serializable, Runnable {
 
     private String name;
-    protected String heading;
-    protected int xc;
-    protected int yc;
+    protected Heading heading;
+    protected int x = 0;
+    protected int y = 0;
     private Thread agentThread;
 
     private AgentState currentState;
 
-    public Agent(String name){
-        this.name = name;
+    public Agent(){
         currentState = AgentState.READY;
     }
 
@@ -23,8 +24,9 @@ public abstract class Agent implements Serializable, Runnable {
         while(!(currentState == AgentState.STOPPED)){
             currentState = AgentState.RUNNING;
             update();
+            //currentState = AgentState.STOPPED;
             try{
-                Thread.sleep(100);
+                //Thread.sleep(100);
                 synchronized (this){
                     while(currentState == AgentState.SUSPENDED){wait();}
                 }
@@ -34,7 +36,15 @@ public abstract class Agent implements Serializable, Runnable {
         }
     }
 
-    public synchronized void start(){currentState = AgentState.READY;}
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
+    public synchronized void start(){currentState = AgentState.READY;run();}
     public synchronized void suspend(){ if(currentState == AgentState.RUNNING){ currentState = AgentState.SUSPENDED; }}
     public synchronized void resume(){ if(!(currentState == AgentState.STOPPED)) notify(); }
     public synchronized void stop(){ currentState = AgentState.STOPPED; }
@@ -47,9 +57,36 @@ public abstract class Agent implements Serializable, Runnable {
         }
     }
 
-    public abstract void update();
+    public void update(){}
 
-    public abstract void move(int move);
+    public void move(int move){
+        switch(heading.getDirection()){
+            case NORTH:
+                y-=move;
+                break;
+            case WEST:
+                x-=move;
+                break;
+            case EAST:
+                x+=move;
+                break;
+            case SOUTH:
+                y+=move;
+                break;
+        }
+        if(x < 0){
+            x = 200-x;
+        }
+        if(y < 0){
+            y = 200-y;
+        }
+        if(x > 250){
+            x = x-200;
+        }
+        if(y > 250){
+            y = y-200;
+        }
+    }
 
     public enum AgentState {
         READY,
@@ -57,6 +94,7 @@ public abstract class Agent implements Serializable, Runnable {
         SUSPENDED,
         STOPPED
     }
+
 }
 
 
