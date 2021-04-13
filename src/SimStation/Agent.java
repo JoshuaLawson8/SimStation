@@ -11,6 +11,7 @@ public class Agent implements Serializable, Runnable {
     protected int x = 0;
     protected int y = 0;
     private Thread agentThread;
+    protected Simulation world;
 
     private AgentState currentState;
 
