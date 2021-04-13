@@ -15,6 +15,11 @@ public class Bird extends Agent{
 
     @Override
     public void update(){
+        Bird b = getNeighbor(10);
+        if (b != null){
+            this.speed = b.getSpeed();
+            this.heading = b.heading;
+        }
         move(speed);
     }
 
@@ -22,6 +27,31 @@ public class Bird extends Agent{
         return speed;
     }
 
+    public Bird getNeighbor(int range){
+        ArrayList<Agent> a = world.getAgents();
+        int searches = 0;
+        int ind = Utilities.rng.nextInt(a.size());
+        while (searches < a.size()){
+            Bird b = (Bird)a.get(ind);
+            if (distance(this, b) < range){
+                return b;
+            }
+            searches++;
+            if (ind == (a.size()-1)) {
+                ind = 0;
+            }
+            else { ind ++; }
+        }
+        return null;
+    }
+
+    public double distance(Bird a, Bird b){
+        int j, k;
+        j = (a.xc-b.xc)*(a.xc-b.xc);
+        k = (a.yc-b.yc)*(a.yc-b.yc);
+        return Math.sqrt(j+k);
+    }
+    
     @Override
     public void move(int move){
 
