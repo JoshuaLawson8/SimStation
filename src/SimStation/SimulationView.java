@@ -1,9 +1,7 @@
 package SimStation;
 
-import SimStation.Agent.AgentState;
 import mvc.View;
 
-import javax.swing.*;
 import java.awt.*;
 import java.beans.PropertyChangeEvent;
 
@@ -35,7 +33,7 @@ public class SimulationView extends View {
 
     @Override
     public void propertyChange(PropertyChangeEvent evt){
-
+        repaint();
     }
 
 }

@@ -19,6 +19,10 @@ public class Agent implements Serializable, Runnable {
         currentState = AgentState.READY;
     }
 
+    public void setWorld(Simulation world) {
+        this.world = world;
+    }
+
     @Override
     public synchronized void run() {
         agentThread = Thread.currentThread();
@@ -27,7 +31,7 @@ public class Agent implements Serializable, Runnable {
             update();
             //currentState = AgentState.STOPPED;
             try{
-                //Thread.sleep(100);
+                Thread.sleep(100);
                 synchronized (this){
                     while(currentState == AgentState.SUSPENDED){wait();}
                 }
@@ -87,6 +91,7 @@ public class Agent implements Serializable, Runnable {
         if(y > 250){
             y = y-200;
         }
+        world.changed();
     }
 
     public enum AgentState {

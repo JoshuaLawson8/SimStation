@@ -3,10 +3,11 @@ package SimStation;
 import mvc.Model;
 import tools.Utilities;
 
-import java.util.ArrayList;
+import java.util.*;
 
 public class Simulation extends Model {
 
+    private Timer timer;
     private int clock = 0;
     protected ArrayList<Agent> Agents;
 
@@ -39,7 +40,6 @@ public class Simulation extends Model {
         if(heading.equals("Stats")){
             Utilities.inform(new String[]{"#Agents = "+Agents.size(),"clock = "+clock});
         }
-
     }
 
     public void addAgent(Agent a){ Agents.add(a); }
@@ -51,10 +51,27 @@ public class Simulation extends Model {
     //Can these be abstract?
     public Agent getNeighbor(Agent a){return null;}
 
-    public void populate(){
+    public void populate(){}
 
+
+    //Time methods
+
+    private void startTimer() {
+        timer = new Timer();
+        timer.scheduleAtFixedRate(new ClockUpdater(), 1000, 1000);
     }
 
+    private void stopTimer() {
+        timer.cancel();
+        timer.purge();
+    }
+
+    private class ClockUpdater extends TimerTask {
+        public void run() {
+            clock++;
+            //changed();
+        }
+    }
 
 
 }
