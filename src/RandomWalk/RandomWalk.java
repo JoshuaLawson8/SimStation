@@ -17,7 +17,8 @@ public class RandomWalk extends Simulation {
 
     }
     public static void main(String[]args){
-
+        AppPanel panel = new SimulationPanel(new RandomWalkFactory());
+        panel.display();
 
     }
 }
