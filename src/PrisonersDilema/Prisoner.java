@@ -6,14 +6,17 @@ import tools.Utilities;
 import SimStation.Agent;
 
 public class Prisoner extends Agent {
-    private int fitness = 0;
+    private int fitnessScore = 0;
     public boolean cooperate() {
-      if(fitness > 0){
+      if(fitnessScore > 0){
           return true;
       }
       return false;
     }
 
+    public boolean cheat(){
+        return false;
+    }
 
     public Prisoner(String name){
         super(name);
