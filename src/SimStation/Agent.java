@@ -9,6 +9,7 @@ public abstract class Agent implements Serializable, Runnable {
     protected int xc;
     protected int yc;
     private Thread agentThread;
+    protected Simulation world;
 
     private AgentState currentState;
 
