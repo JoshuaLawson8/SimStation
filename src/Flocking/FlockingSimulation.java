@@ -17,6 +17,7 @@ public class FlockingSimulation extends Simulation {
         }
     }
 
+    @Override
     public String[] getStats(){
         Map<Integer, Integer> sp = new HashMap<Integer, Integer>();
         for (Object a : Agents){
