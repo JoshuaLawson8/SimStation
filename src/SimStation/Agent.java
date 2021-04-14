@@ -4,14 +4,14 @@ import java.io.Serializable;
 
 public class Agent implements Serializable, Runnable {
 
-    protected String name;
     protected int x;
     protected int y;
+    protected String name;
     protected Heading heading;
+    protected boolean suspended, stopped;
 
-    private Thread agentThread;
-    private boolean suspended, stopped;
     protected Simulation sim;
+    private Thread agentThread;
 
     public Agent(String name) {
         this.name = name;
@@ -59,7 +59,6 @@ public class Agent implements Serializable, Runnable {
         System.out.println(name + " stopped");
     }
 
-
     public synchronized void join() {
         try {
             if (agentThread != null) agentThread.join();
@@ -68,9 +67,6 @@ public class Agent implements Serializable, Runnable {
         }
         System.out.println("joined");
     }
-
-
-    public void update(){}
 
     public void move(int move){
         switch(heading){
@@ -93,6 +89,8 @@ public class Agent implements Serializable, Runnable {
         if(y > 250){ y = y-250;}
         sim.changed();
     }
+
+    public void update(){}
 
     public enum Heading {
         NORTH,

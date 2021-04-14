@@ -9,10 +9,9 @@ public class Simulation extends Model {
 
     private Timer timer;
     private int clock = 0;
-    protected ArrayList<Agent> Agents;
+    protected ArrayList<Agent> Agents = new ArrayList<>();
 
     public Simulation(){
-        Agents = new ArrayList<Agent>();
         populate();
     }
 
@@ -39,8 +38,12 @@ public class Simulation extends Model {
             }
         }
         if(heading.equals("Stats")){
-            Utilities.inform(new String[]{"#Agents = "+Agents.size(),"clock = "+clock});
+            getStats();
         }
+    }
+
+    public void getStats(){
+        Utilities.inform(new String[]{"#Agents = "+Agents.size(),"clock = "+clock});
     }
 
     public void addAgent(Agent a){ Agents.add(a); }
