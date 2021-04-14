@@ -5,8 +5,8 @@ import java.io.Serializable;
 public class Agent implements Serializable, Runnable {
 
     protected String name;
-    protected int x = 0;
-    protected int y = 0;
+    protected int x;
+    protected int y;
     protected Heading heading;
 
     private Thread agentThread;
@@ -18,6 +18,8 @@ public class Agent implements Serializable, Runnable {
         suspended = false;
         stopped = false;
         agentThread = null;
+        x = (int)(Math.random() * 250);
+        y = (int)(Math.random() * 250);
     }
 
     public void setSim(Simulation sim) { this.sim = sim; }
