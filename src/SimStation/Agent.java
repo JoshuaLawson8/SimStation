@@ -48,7 +48,7 @@ public class Agent implements Serializable, Runnable {
         while (!isStopped()) {
             try {
                 update();
-                Thread.sleep(1000);
+                Thread.sleep(10);
                 checkSuspended();
             } catch(InterruptedException e) {
                 e.printStackTrace();
@@ -64,6 +64,7 @@ public class Agent implements Serializable, Runnable {
         } catch(InterruptedException e) {
             System.out.println(e.getMessage());
         }
+        System.out.println("joined");
     }
 
 
@@ -84,18 +85,11 @@ public class Agent implements Serializable, Runnable {
                 y+=move;
                 break;
         }
-        if(x < 0){ x = 200-x;}
-        if(y < 0){ y = 200-y;}
-        if(x > 250){x = x-200;}
-        if(y > 250){ y = y-200;}
+        if(x < 0){ x = 250+x;}
+        if(y < 0){ y = 250+y;}
+        if(x > 250){x = x-250;}
+        if(y > 250){ y = y-250;}
         sim.changed();
-    }
-
-    public enum AgentState {
-        READY,
-        RUNNING,
-        SUSPENDED,
-        STOPPED
     }
 
     public enum Heading {
