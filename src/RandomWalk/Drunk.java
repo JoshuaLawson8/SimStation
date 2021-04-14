@@ -6,7 +6,7 @@ import tools.*;
 class Drunk extends Agent {
 
     public Drunk() {
-        super();
+        super("Drunk");
         heading = Heading.random();
     }
 

@@ -1,71 +1,76 @@
 package SimStation;
 
-import SimStation.Heading.headingState;
-
 import java.io.Serializable;
 
 public class Agent implements Serializable, Runnable {
 
-    private String name;
-    protected Heading heading;
+    protected String name;
     protected int x = 0;
     protected int y = 0;
+    protected Heading heading;
+
     private Thread agentThread;
-    protected Simulation world;
+    private boolean suspended, stopped;
+    protected Simulation sim;
 
-    private AgentState currentState;
-
-    public Agent(){
-        currentState = AgentState.READY;
+    public Agent(String name) {
+        this.name = name;
+        suspended = false;
+        stopped = false;
+        agentThread = null;
     }
 
-    public void setWorld(Simulation world) {
-        this.world = world;
+    public void setSim(Simulation sim) { this.sim = sim; }
+    public String getName() { return name; }
+    public int getX() { return x; }
+    public int getY() { return y; }
+
+    public synchronized void stop() { stopped = true; }
+    public synchronized boolean isStopped() { return stopped; }
+    public synchronized void suspend() { suspended = true; }
+    public synchronized boolean isSuspended() { return suspended;  }
+    public synchronized void resume() { notify(); }
+
+    private synchronized void checkSuspended() {
+        try {
+            while(!stopped && suspended) {
+                wait();
+                suspended = false;
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
-    public synchronized void run() {
+    public void run() {
         agentThread = Thread.currentThread();
-        while(!(currentState == AgentState.STOPPED)){
-            currentState = AgentState.RUNNING;
-            update();
-            //currentState = AgentState.STOPPED;
-            try{
-                Thread.sleep(100);
-                synchronized (this){
-                    while(currentState == AgentState.SUSPENDED){wait();}
-                }
-            }catch(Exception e){
-                System.out.println(e);
+        while (!isStopped()) {
+            try {
+                update();
+                Thread.sleep(1000);
+                checkSuspended();
+            } catch(InterruptedException e) {
+                e.printStackTrace();
             }
         }
+        System.out.println(name + " stopped");
     }
 
-    public int getX() {
-        return x;
-    }
 
-    public int getY() {
-        return y;
-    }
-
-    public synchronized void start(){currentState = AgentState.READY;run();}
-    public synchronized void suspend(){ if(currentState == AgentState.RUNNING){ currentState = AgentState.SUSPENDED; }}
-    public synchronized void resume(){ if(!(currentState == AgentState.STOPPED)) notify(); }
-    public synchronized void stop(){ currentState = AgentState.STOPPED; }
-    public synchronized AgentState getState(){return currentState;}
-    public String getName(){return name;}
-
-    public synchronized void join() throws InterruptedException{
-        if(agentThread != null){
-            agentThread.join();
+    public synchronized void join() {
+        try {
+            if (agentThread != null) agentThread.join();
+        } catch(InterruptedException e) {
+            System.out.println(e.getMessage());
         }
     }
+
 
     public void update(){}
 
     public void move(int move){
-        switch(heading.getDirection()){
+        switch(heading){
             case NORTH:
                 y-=move;
                 break;
@@ -79,19 +84,11 @@ public class Agent implements Serializable, Runnable {
                 y+=move;
                 break;
         }
-        if(x < 0){
-            x = 200-x;
-        }
-        if(y < 0){
-            y = 200-y;
-        }
-        if(x > 250){
-            x = x-200;
-        }
-        if(y > 250){
-            y = y-200;
-        }
-        world.changed();
+        if(x < 0){ x = 200-x;}
+        if(y < 0){ y = 200-y;}
+        if(x > 250){x = x-200;}
+        if(y > 250){ y = y-200;}
+        sim.changed();
     }
 
     public enum AgentState {
@@ -99,6 +96,28 @@ public class Agent implements Serializable, Runnable {
         RUNNING,
         SUSPENDED,
         STOPPED
+    }
+
+    public enum Heading {
+        NORTH,
+        SOUTH,
+        EAST,
+        WEST;
+
+        public static Heading random() {
+            int random = (int) (Math.random() * 4);
+            switch (random) {
+                case 0:
+                    return NORTH;
+                case 1:
+                    return SOUTH;
+                case 2:
+                    return EAST;
+                case 3:
+                    return WEST;
+            }
+            return null;
+        }
     }
 
 }

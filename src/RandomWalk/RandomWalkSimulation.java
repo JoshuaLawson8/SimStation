@@ -11,7 +11,7 @@ public class RandomWalkSimulation extends Simulation {
     public void populate() {
         for(int i = 0; i < 15; i++){
             Agent a = new Drunk();
-            a.setWorld(this);
+            a.setSim(this);
             addAgent(a);
         }
 

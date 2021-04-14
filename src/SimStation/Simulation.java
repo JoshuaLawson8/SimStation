@@ -19,7 +19,8 @@ public class Simulation extends Model {
     public void changeState(String heading){
         if(heading.equals("Start")){
             for(Agent a : Agents){
-                a.start();
+                Thread thread = new Thread(a);
+                thread.start();
             }
         }
         if(heading.equals("Suspend")){
@@ -48,11 +49,6 @@ public class Simulation extends Model {
         return Agents;
     }
 
-    //Can these be abstract?
-    public Agent getNeighbor(Agent a){return null;}
-
-    public void populate(){}
-
 
     //Time methods
 
@@ -72,6 +68,10 @@ public class Simulation extends Model {
             //changed();
         }
     }
+
+    //Can these be abstract?
+    public Agent getNeighbor(Agent a){return null;}
+    public void populate(){}
 
 
 }
