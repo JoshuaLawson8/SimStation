@@ -3,6 +3,7 @@ package Flocking;
 import SimStation.Simulation;
 import SimStation.SimulationPanel;
 import mvc.AppPanel;
+import tools.Utilities;
 
 import java.util.*;
 
@@ -18,7 +19,7 @@ public class FlockingSimulation extends Simulation {
     }
 
     @Override
-    public String[] getStats(){
+    public void getStats(){
         Map<Integer, Integer> sp = new HashMap<Integer, Integer>();
         for (Object a : Agents){
             if (a instanceof Bird){
@@ -35,7 +36,7 @@ public class FlockingSimulation extends Simulation {
             result[i] = ("#birds @ speed " + val.getKey() + " = "  + val.getValue());
             i++;
         }
-        return result;
+        Utilities.inform(result);
     }
 
     public static void main(String[] args) {
