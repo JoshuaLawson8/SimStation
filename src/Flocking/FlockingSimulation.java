@@ -14,7 +14,7 @@ public class FlockingSimulation extends Simulation {
         for (int i = 0; i < 100; i++){
             Bird a = new Bird("bird "+ i+1);
             a.setSim(this);
-            Agents.add(a);
+            addAgent(a);
         }
     }
 
