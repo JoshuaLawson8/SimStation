@@ -16,7 +16,7 @@ public class Bird extends Agent{
 
     @Override
     public void update(){
-        Bird b = getNeighbor(10);
+        Bird b = (Bird)sim.getNeighbor(this, 10);
         if (b != null){
             this.speed = b.speed;
             this.heading = b.heading;
@@ -28,6 +28,7 @@ public class Bird extends Agent{
         return speed;
     }
 
+    /*
     public Bird getNeighbor(int range){
         ArrayList<Agent> a = sim.getAgents();
         int searches = 0;
@@ -52,6 +53,8 @@ public class Bird extends Agent{
         k = (a.y-b.y)*(a.y-b.y);
         return Math.sqrt(j+k);
     }
+
+     */
 
 
 }

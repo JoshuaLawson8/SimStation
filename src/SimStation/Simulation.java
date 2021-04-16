@@ -72,8 +72,33 @@ public class Simulation extends Model {
         }
     }
 
+    public int getClock(){
+        return clock;
+    }
     //Can these be abstract?
-    public Agent getNeighbor(Agent a){return null;}
+    public Agent getNeighbor(Agent a, int radius){
+        int searches = 0;
+        int ind = Utilities.rng.nextInt(Agents.size());
+        while (searches < Agents.size()){
+            Agent b = (Agent)Agents.get(ind);
+            if (distance(a, b) < radius){
+                return b;
+            }
+            searches++;
+            if (ind == (Agents.size()-1)) {
+                ind = 0;
+            }
+            else { ind ++; }
+        }
+        return null;
+    }
+
+    public double distance(Agent a, Agent b){
+        int j, k;
+        j = (a.x-b.x)*(a.x-b.x);
+        k = (a.y-b.y)*(a.y-b.y);
+        return Math.sqrt(j+k);
+    }
     public void populate(){}
 
 
