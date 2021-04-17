@@ -42,44 +42,36 @@ public class PrisonerSimulation extends Simulation{
     @Override
     public void getStats(){
         double cooperateAvg, cheatAvg, randomAvg, titAvg;
-        ArrayList<Integer> cooperate = new ArrayList<Integer>();
-        ArrayList<Integer> cheat = new ArrayList<Integer>();
-        ArrayList<Integer> random = new ArrayList<Integer>();
-        ArrayList<Integer> tit  = new ArrayList<Integer>();
+        int cooperate = 0;
+        int cheat = 0;
+        int random = 0;
+        int tit = 0;
         for (Agent a : Agents){
             if(a instanceof Prisoner){
                 Prisoner p = (Prisoner)a;
                 if (p.getStrategy() instanceof Cooperate){
-                    cooperate.add(p.getFitness());
+                    cooperate += p.getFitness();
                 }
                 else if (p.getStrategy() instanceof Cheat){
-                    cheat.add(p.getFitness());
+                    cheat += p.getFitness();
                 }
                 else if (p.getStrategy() instanceof RandomlyCooperate){
-                    random.add(p.getFitness());
+                    random += p.getFitness();
                 }
                 else {
-                    tit.add(p.getFitness());
+                    tit += p.getFitness();
                 }
             }
         }
 
-        cooperateAvg = averageList(cooperate);
-        cheatAvg = averageList(cheat);
-        randomAvg = averageList(random);
-        titAvg = averageList(tit);
+        cooperateAvg = (double)cooperate/(population/4);
+        cheatAvg = (double)cheat/(population/4);
+        randomAvg = (double)random/(population/4);
+        titAvg = (double)tit/(population/4);
 
         Utilities.inform(new String[] {"Cooperate Average: " + cooperateAvg, "Cheat Average: " + cheatAvg,
                                         "Randomly Cooperate Average: " + randomAvg,
                                         "Tit for Tat Average: " + titAvg});
-    }
-
-    public double averageList(ArrayList<Integer> list){
-        int total = 0;
-        for (Integer i : list){
-            total+=i;
-        }
-        return (double)total/list.size();
     }
 
     public static void main(String[] args){
