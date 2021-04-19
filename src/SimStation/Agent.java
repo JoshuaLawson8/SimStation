@@ -50,7 +50,7 @@ public class Agent implements Serializable, Runnable {
         while (!isStopped()) {
             try {
                 update();
-                Thread.sleep(10);
+                Thread.sleep(50);
                 checkSuspended();
             } catch(InterruptedException e) {
                 e.printStackTrace();
