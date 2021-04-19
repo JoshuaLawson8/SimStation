@@ -76,11 +76,18 @@ public class AppPanel extends JPanel implements ActionListener, PropertyChangeLi
             String cmmd = ae.getActionCommand();
 
             if (cmmd == "Save") {
+                /*
                 model.setUnsavedChanges(false);
                 String fName = Utilities.getFileName(null, false);
                 ObjectOutputStream os = new ObjectOutputStream(new FileOutputStream(fName));
                 os.writeObject(model);
                 os.close();
+
+                 */
+                Utilities.save(model, false);
+            }
+            else if (cmmd == "Save As"){
+                Utilities.save(model, true);
             }
             else if (cmmd == "Open") {
             Boolean unsaved = true;
