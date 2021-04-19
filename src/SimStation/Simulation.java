@@ -51,6 +51,7 @@ public class Simulation extends Model implements Serializable {
                     Thread thread = new Thread(a);
                     a.setAgentThread(thread);
                     System.out.println("Created");
+                    a.suspended = false;
                     a.getAgentThread().start();
                 }
                 else{
