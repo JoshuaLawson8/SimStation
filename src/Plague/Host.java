@@ -31,9 +31,8 @@ public class Host extends Agent {
                     }
                 }
             }
-            move(speed);
         }
-
+        move(speed);
     }
 
 }
