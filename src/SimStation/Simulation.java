@@ -11,25 +11,29 @@ public class Simulation extends Model implements Serializable {
     private transient Timer timer;
     private int clock = 0;
     protected ArrayList<Agent> Agents = new ArrayList<>();
+    private boolean ended, started = false;
 
     public Simulation(){
         populate();
         for(Agent a : Agents){
-            Thread thread = new Thread(a);
-            a.setAgentThread(thread);
-            System.out.println("Thread given");
+            if(a.getAgentThread() == null){
+                Thread thread = new Thread(a);
+                a.setAgentThread(thread);
+            }
         }
     }
 
     public void changeState(String heading){
         if(heading.equals("Start")){
-            startTimer();
+            if(!ended && !started)
+                startTimer();
             for(Agent a : Agents){
                 if(!a.started){
                     a.started = true;
                     a.getAgentThread().start();
                 }
             }
+            started = true;
         }
         if(heading.equals("Suspend")){
             for(Agent a : Agents){
@@ -40,25 +44,29 @@ public class Simulation extends Model implements Serializable {
                 stopTimer();
         }
         if(heading.equals("Resume")){
-            if(Agents.get(0).getAgentThread() != null){
+            if(!ended)
                 startTimer();
-            }
-            else{
-                for(Agent a : Agents){
+            for(Agent a : Agents){
+                if(a.getAgentThread() == null){
                     Thread thread = new Thread(a);
                     a.setAgentThread(thread);
-                    System.out.println("Thread given");
-                    }
-            }
-            for(Agent a : Agents){
-                a.resume();
+                    System.out.println("Created");
+                    a.getAgentThread().start();
+                }
+                else{
+                    a.resume();
+                }
             }
         }
         if(heading.equals("Stop")){
             for(Agent a : Agents){
-                a.stop();
+                if(a.getAgentThread() != null)
+                    a.stop();
             }
-            stopTimer();
+            if(timer != null) {
+                stopTimer();
+                ended = true;
+            }
         }
         if(heading.equals("Stats")){
             getStats();
@@ -79,11 +87,13 @@ public class Simulation extends Model implements Serializable {
     //Time methods
 
     private void startTimer() {
+        System.out.println("started");
         timer = new Timer();
         timer.scheduleAtFixedRate(new ClockUpdater(), 1000, 1000);
     }
 
     private void stopTimer() {
+        System.out.println("Stopped");
         timer.cancel();
         timer.purge();
     }
