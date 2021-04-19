@@ -57,7 +57,7 @@ public class Agent implements Serializable, Runnable {
                 e.printStackTrace();
             }
         }
-        System.out.println(name + " stopped");
+        //System.out.println(name + " stopped");
     }
 
     public synchronized void join() {
@@ -66,7 +66,7 @@ public class Agent implements Serializable, Runnable {
         } catch(InterruptedException e) {
             System.out.println(e.getMessage());
         }
-        System.out.println("joined");
+        //System.out.println("joined");
     }
 
     public void move(int move){

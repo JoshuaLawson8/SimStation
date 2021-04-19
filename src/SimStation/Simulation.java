@@ -50,7 +50,7 @@ public class Simulation extends Model implements Serializable {
                 if(a.getAgentThread() == null){
                     Thread thread = new Thread(a);
                     a.setAgentThread(thread);
-                    System.out.println("Created");
+                    //System.out.println("Created");
                     a.suspended = false;
                     a.getAgentThread().start();
                 }
@@ -61,8 +61,8 @@ public class Simulation extends Model implements Serializable {
         }
         if(heading.equals("Stop")){
             for(Agent a : Agents){
-                if(a.getAgentThread() != null)
-                    a.stop();
+                //if(a.getAgentThread() != null)
+                a.stop();
             }
             if(timer != null) {
                 stopTimer();
@@ -88,13 +88,13 @@ public class Simulation extends Model implements Serializable {
     //Time methods
 
     private void startTimer() {
-        System.out.println("started");
+        //System.out.println("started");
         timer = new Timer();
         timer.scheduleAtFixedRate(new ClockUpdater(), 1000, 1000);
     }
 
     private void stopTimer() {
-        System.out.println("Stopped");
+        //System.out.println("Stopped");
         timer.cancel();
         timer.purge();
     }
