@@ -2,6 +2,7 @@ package PrisonersDilema;
 
 import SimStation.Agent;
 import tools.Utilities;
+import java.io.Serializable;
 
 public class Prisoner extends Agent {
 
@@ -54,7 +55,7 @@ public class Prisoner extends Agent {
 
 }
 
-abstract class Strategy {
+abstract class Strategy implements Serializable {
     public abstract boolean cooperate(boolean cheated);
 }
 

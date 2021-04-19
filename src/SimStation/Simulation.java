@@ -115,7 +115,9 @@ public class Simulation extends Model implements Serializable {
         while (searches < Agents.size()){
             Agent b = (Agent)Agents.get(ind);
             if (distance(a, b) < radius){
-                return b;
+                if (a != b){
+                    return b;
+                }
             }
             searches++;
             if (ind == (Agents.size()-1)) {
