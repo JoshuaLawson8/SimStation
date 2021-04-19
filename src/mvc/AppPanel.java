@@ -48,7 +48,7 @@ public class AppPanel extends JPanel implements ActionListener, PropertyChangeLi
         JMenuBar result = new JMenuBar();
         // add file, edit, and help menus
         JMenu fileMenu =
-                Utilities.makeMenu("File", new String[] {"New",  "Save", "Open", "Quit"}, this);
+                Utilities.makeMenu("File", new String[] {"New",  "Save", "Save As", "Open", "Quit"}, this);
         result.add(fileMenu);
 
         JMenu editMenu =
@@ -77,27 +77,27 @@ public class AppPanel extends JPanel implements ActionListener, PropertyChangeLi
 
             if (cmmd == "Save") {
                 model.setUnsavedChanges(false);
-                //String fName = Utilities.ask("File Name?");
                 String fName = Utilities.getFileName(null, false);
                 ObjectOutputStream os = new ObjectOutputStream(new FileOutputStream(fName));
                 os.writeObject(model);
                 os.close();
-            } else if (cmmd == "Open") {
-                Boolean unsaved = true;
-                if (model.getUnsavedChanges()) {
-                    unsaved = !Utilities.confirm("Open without saving?");
-                }
-                if(unsaved){
-                    String fName = Utilities.getFileName(null, true);
-                    ObjectInputStream is = new ObjectInputStream(new FileInputStream(fName));
-                    //model.removePropertyChangeListener(this);
-                    model = (Model) is.readObject();
-                    //this.model.initSupport();
-                    //model.addPropertyChangeListener(this);
-                    view.setModel(model);
-                    model.changed();
-                    is.close();
-                }
+            }
+            else if (cmmd == "Open") {
+            Boolean unsaved = true;
+            if (model.getUnsavedChanges()) {
+                unsaved = !Utilities.confirm("Open without saving?");
+            }
+            if(unsaved){
+                String fName = Utilities.getFileName(null, true);
+                ObjectInputStream is = new ObjectInputStream(new FileInputStream(fName));
+                //model.removePropertyChangeListener(this);
+                model = (Model) is.readObject();
+                //this.model.initSupport();
+                //model.addPropertyChangeListener(this);
+                view.setModel(model);
+                model.changed();
+                is.close();
+            }
             } else if (cmmd == "New") {
                 Boolean unsaved = true;
                 if (model.getUnsavedChanges()) {

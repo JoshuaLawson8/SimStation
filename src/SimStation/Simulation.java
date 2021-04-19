@@ -3,36 +3,53 @@ package SimStation;
 import mvc.Model;
 import tools.Utilities;
 
+import java.io.Serializable;
 import java.util.*;
 
-public class Simulation extends Model {
+public class Simulation extends Model implements Serializable {
 
-    private Timer timer;
+    private transient Timer timer;
     private int clock = 0;
     protected ArrayList<Agent> Agents = new ArrayList<>();
 
     public Simulation(){
         populate();
+        for(Agent a : Agents){
+            Thread thread = new Thread(a);
+            a.setAgentThread(thread);
+            System.out.println("Thread given");
+        }
     }
 
     public void changeState(String heading){
         if(heading.equals("Start")){
+            startTimer();
             for(Agent a : Agents){
-                if(a.getAgentThread() == null){
-                    Thread thread = new Thread(a);
-                    thread.start();
-                    System.out.println("Thread assigned");
-                }else{
-                    System.out.println("Already has thread");
+                if(!a.started){
+                    a.started = true;
+                    a.getAgentThread().start();
                 }
             }
         }
         if(heading.equals("Suspend")){
             for(Agent a : Agents){
-                a.suspend();
+                if(a.getAgentThread() != null)
+                    a.suspend();
             }
+            if(timer != null)
+                stopTimer();
         }
         if(heading.equals("Resume")){
+            if(Agents.get(0).getAgentThread() != null){
+                startTimer();
+            }
+            else{
+                for(Agent a : Agents){
+                    Thread thread = new Thread(a);
+                    a.setAgentThread(thread);
+                    System.out.println("Thread given");
+                    }
+            }
             for(Agent a : Agents){
                 a.resume();
             }
@@ -41,6 +58,7 @@ public class Simulation extends Model {
             for(Agent a : Agents){
                 a.stop();
             }
+            stopTimer();
         }
         if(heading.equals("Stats")){
             getStats();

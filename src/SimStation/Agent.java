@@ -8,10 +8,10 @@ public class Agent implements Serializable, Runnable {
     protected int y;
     protected String name;
     protected Heading heading;
-    protected boolean suspended, stopped;
+    protected boolean suspended, stopped, started;
 
     protected Simulation sim;
-    private Thread agentThread;
+    private transient Thread agentThread;
 
     public Agent(String name) {
         this.name = name;
@@ -27,6 +27,7 @@ public class Agent implements Serializable, Runnable {
     public int getX() { return x; }
     public int getY() { return y; }
     public Thread getAgentThread(){return agentThread;}
+    public void setAgentThread(Thread a){this.agentThread = a;}
 
     public synchronized void stop() { stopped = true; }
     public synchronized boolean isStopped() { return stopped; }
@@ -47,7 +48,6 @@ public class Agent implements Serializable, Runnable {
 
     @Override
     public void run() {
-        agentThread = Thread.currentThread();
         while (!isStopped()) {
             try {
                 update();
