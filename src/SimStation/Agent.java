@@ -26,6 +26,7 @@ public class Agent implements Serializable, Runnable {
     public String getName() { return name; }
     public int getX() { return x; }
     public int getY() { return y; }
+    public Thread getAgentThread(){return agentThread;}
 
     public synchronized void stop() { stopped = true; }
     public synchronized boolean isStopped() { return stopped; }

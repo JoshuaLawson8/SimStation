@@ -18,8 +18,13 @@ public class Simulation extends Model {
     public void changeState(String heading){
         if(heading.equals("Start")){
             for(Agent a : Agents){
-                Thread thread = new Thread(a);
-                thread.start();
+                if(a.getAgentThread() == null){
+                    Thread thread = new Thread(a);
+                    thread.start();
+                    System.out.println("Thread assigned");
+                }else{
+                    System.out.println("Already has thread");
+                }
             }
         }
         if(heading.equals("Suspend")){
